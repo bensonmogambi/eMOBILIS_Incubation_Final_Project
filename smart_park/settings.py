@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'parkloader',
-    "crispy_forms",
+    'crispy_forms',
     'crispy_bootstrap5',
-     'mpesa',
-     'django_daraja',
+    'mpesa',
+    'django_daraja',
 ]
 
 MIDDLEWARE = [
