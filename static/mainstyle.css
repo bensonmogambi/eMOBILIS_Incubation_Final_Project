@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap');
+body {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f2f2f2;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #f2f2f2;
+}
+
+.btm-txt,
+.reg-form-sign form {
+    margin-left: 35%;
+    font-size: medium;
+}
+
+.reg-form-sign h2 {
+    padding-left: 0;
+    margin-left: 40%;
+}
+
+.whole {
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6)), url('/static/images/28899766_7514773.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.title {
+    margin-top: 350px;
+    margin-left: 78%;
+}
+
+.display-4 {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.lead {
+    padding-right: 5%;
+}
+
+.reg-form h2 {
+    text-align: center;
+}
+
+.select-whole {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/static/images/7119306_3339154.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.selection-form {
+    width: 500px;
+    height: 450px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    font-size: 12px;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.selection-form h2 {
+    text-align: center;
+}
+
+.login-form {
+    width: 400px;
+    height: 400px;
+    /* padding-top: 2%; */
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    font-size: 12px;
+    padding-left: 2%;
+}
+
+.login-form h2 {
+    text-align: center;
+}
+
+.card-body {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #141E29;
+    color: #fff;
+}
+
+.cards-outline {
+    margin-top: 5%;
+}
+
+.plan-div {
+    font-size: 24px;
+    text-transform: capitalize;
+    font-family: 'Quicksand', sans-serif;
+    margin-top: 2%;
+}
+
+.plan-div p {
+    text-align: center;
+}
+
+.plan-div hr {
+    align-self: center;
+}
+
+
+/* Center the intro content vertically */
+
+.intro-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+
+/* Add a background image to the intro section */
+
+#intro {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('/static/images/parked1.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+
+/* Style the navbar */
+
+.navbar {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.nav-link {
+    color: #fff;
+}
+
+
+/* Style the booking form */
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-orange {
+    background-color: orange;
+    color: white;
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: darkorange;
+}
+
+
+/* Style the footer */
+
+footer {
+    padding: 20px 0;
+    margin-top: 100px;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+    color: #ccc;
+}
+
+.instagram a i {
+    background: #d6249f;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);
+    border-radius: 30px;
+}
+
+.instaname:hover {
+    color: #fd5949;
+    text-decoration: none;
+}
+
+.twitter a i {
+    color: rgb(14, 188, 191);
+}
+
+.twitter a:hover {
+    color: rgb(14, 188, 191);
+    text-decoration: none;
+}
+
+.linkedin a i {
+    color: blue;
+}
+
+.linkedin a:hover {
+    color: blue;
+    text-decoration: none;
+}
+
+.reddit a i {
+    color: #FF4301;
+}
+
+.reddit a:hover {
+    color: #FF4301;
+    text-decoration: none;
+}
+
+.socials {
+    text-decoration: none;
+}
+
+@media screen and (max-width:768px) {
+    .selection-form {
+        height: 100vh;
+        width: 100vw;
+        margin-left: 0px;
+        margin-right: 0px;
+        background-color: #fff;
+        border-radius: 0px;
+        font-size: 12px;
+        margin-top: 0%;
+    }
+    .login-form {
+        height: 100vh;
+        width: 100vw;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #fff;
+        border-radius: 0px;
+        font-size: 12px;
+        margin-top: 0%;
+    }
+    .select-whole {
+        width: 100vw;
+        height: 100vh;
+        background-image: none;
+    }
+    .imgplace {
+        background-image: url('/static/images/7119306_3339154.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 30vh;
+        width: 100vw;
+    }
+    .imgplace-login {
+        background-image: url('/static/images/28899766_7514773.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 60vh;
+        width: 100vw;
+    }
+    .imgplacepay {
+        background-image: url('/static/images/35262243_8292057.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 40vh;
+        width: 100vw;
+    }
+    .title {
+        margin-top: 45vh;
+        margin-left: 00%;
+    }
+    #intro {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('/static/images/parked1.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 93vh;
+    }
+    .about {
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+    .btm-txt,
+    .reg-form-sign form {
+        margin-left: 10px;
+    }
+    .reg-form-sign h2 {
+        padding-left: 0;
+        margin-left: 0;
+    }
+    footer {
+        margin-top: 40px;
+    }
+}

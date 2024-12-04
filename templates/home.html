@@ -1,0 +1,167 @@
+{% load crispy_forms_tags %} {% load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c4e0f4710c.js" crossorigin="anonymous"></script>
+    <style>
+        input {
+            text-transform: uppercase;
+        }
+        form select {
+            max-width: 320px;
+        }
+    </style>
+
+</head>
+
+<body style="overflow-y:scroll;overflow-x:hidden;">
+
+    <!-- create navigation bar  -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top " id="'navbarNav">
+        <div class="container">
+            <a class="navbar-brand logo" href="#"><span style="color: orange;"> SMART</span>PARK</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <!-- Add mx-auto class here -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#target-anchor-about">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#target-anchor-about">ABOUT US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#target-anchor-book">BOOK </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="home/billing_info">BILLING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">LOGOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section id="intro" class="jumbotron jumbotron-fluid bg-dark text-light">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-md-6 order-md-2  title">
+                    <h1 class="display-4">SmartPark System</h1>
+                    <p class="lead">Smart Parking sensing technology is leading the way in delivery of proven, fully integrated , end-to-end solutions, resulting in a transformation of the complete parking experience</p>
+                    <a href="#target-anchor-book"> <button class="btn btn-md booking-btn btn-orange">  Book now </button></a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <a id="target-anchor-about"></a>
+    <section id="about" data-spy="scroll" data-target="#navbarNav" data-offset="60">
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-12 about">
+                    <h2>About Us</h2>
+                    <p>Our SmartPark system is made up of interchangeable componentsand fully integrates parking, guidance , payment and analytics as well as a host of other complementaryservicesand options. this makes the complete SmartPark solution truly
+                        a sum of its parts and an industry leader in the technology and parking sector </p>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </section>
+    <a id="target-anchor-book"></a>
+    <section id="book">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Book Your Parking Spot</h2>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:green;list-style:none">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <form method="POST">
+                        <div class="form-group">
+                            {% csrf_token %} {{ vehicle_form| crispy}}
+                        </div>
+                        <button type="submit" class="btn btn-orange btn-submit">Book</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-dark text-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Contact Us</h3>
+                    <p>123 Main Street<br>City, State ZIP<br>Phone: (123) 456-7890<br>Email: info@carparking.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Follow Us</h3>
+                    <ul class="list-unstyled">
+                        <li class="twitter">
+                            <a href="#" class="socials"><i class="fa-brands fa-twitter "></i> twitter</a>
+                        </li>
+                        <li class="instagram">
+                            <a href="#" class="socials"><i class="fa-brands fa-instagram "></i><span class="instaname"> instagram</span></a></li>
+                        <li>
+                            <li class="linkedin">
+                                <a href="#" class="socials"><i class="fa-brands fa-linkedin"></i> linkedin</a></li>
+                            <li class="reddit">
+                                <a href="" class="socials"><i class="fa-brands fa-reddit "></i> reddit</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <p>&copy; 2023 Car Parking
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        /* JavaScript code to make the navbar collapsible on smaller screens */
+        $('.navbar-toggler').on('click', function() {
+            $('.navbar-collapse').collapse('toggle');
+        });
+        window.onload = function() {
+            var id = window.location.search.substring(1); // get the id from the URL parameter
+            var element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView(); // scroll to the element
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the height of your navigation bar
+            const navbarHeight = document.querySelector("nav").offsetHeight;
+
+            // Adjust scroll position when a link is clicked
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({
+                        top: targetPosition - navbarHeight, // Adjusted scroll position
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

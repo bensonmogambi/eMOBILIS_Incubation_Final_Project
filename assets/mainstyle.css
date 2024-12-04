@@ -1,0 +1,439 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&family=Roboto&display=swap');
+
+/* body {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f2f2f2;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #f2f2f2;
+}
+ */
+
+
+/* .whole {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/static/images/28899766_7514773.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+} */
+
+.reg-form {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 30px;
+    font-size: 12px;
+    padding-left: 2%;
+}
+
+.navbar {
+    background-color: #232B35;
+}
+
+.nav-link {
+    font-size: 19px;
+    color: orange;
+}
+
+#book,
+#about {
+    background-image: linear-gradient(to right, #0A1A27, #141E29, #1B242D, #232B35);
+    color: #fff;
+}
+
+.title {
+    margin-top: 5vh;
+    margin-left: 70%;
+}
+
+.title h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.title p {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn-submit {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.about {
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.about h2,
+.about p {
+    text-align: center;
+}
+
+.about p {
+    margin-bottom: 30px;
+}
+
+logo {
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+/* body {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/static/images/park.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+} */
+
+.reg-form h2 {
+    text-align: center;
+}
+
+.select-whole {
+    width: 100vw;
+    height: 100vh;
+    /* background-image: url('/static/images/7119306_3339154.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;  */
+}
+
+.selection-form {
+    width: 500px;
+    height: 450px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    font-size: 12px;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.selection-form h2 {
+    text-align: center;
+}
+
+.login-form {
+    width: 400px;
+    height: 400px;
+    /* padding-top: 2%; */
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    font-size: 12px;
+    padding-left: 2%;
+}
+
+.login-form h2 {
+    text-align: center;
+}
+
+
+/* .navbar-brand {
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-family: 'Quicksand', sans-serif;
+    color: #333;
+} 
+
+ .nav-link {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: teal;
+    font-family: 'Quicksand', sans-serif;
+}
+*/
+
+.card-body {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #141E29;
+    color: #fff;
+}
+
+.cards-outline {
+    margin-top: 5%;
+}
+
+.plan-div {
+    font-size: 24px;
+    text-transform: capitalize;
+    font-family: 'Quicksand', sans-serif;
+    margin-top: 2%;
+}
+
+.plan-div p {
+    text-align: center;
+}
+
+.plan-div hr {
+    align-self: center;
+}
+
+
+/* background-image: url('/static/images/pexels-rangga-aditya-armien-235222.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.text-over {
+    background-color: #fff;
+    height: 100vh;
+    width: 50%;
+    float: right;
+}
+
+.text-over h2 {
+    color: rgb(229, 70, 70);
+    font-size: 50px;
+    font-family: 'Quicksand', sans-serif;
+    float: right;
+    font-weight: bold;
+}
+
+header {
+    position: relative;
+    height: 100vh;
+}
+
+.carousel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.slide {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide img {
+    width: 100%;
+}
+
+.caption {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    width: 100%;
+    padding: 20px;
+}
+
+.caption h2 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.caption p {
+    margin: 0;
+    font-size: 18px;
+} */
+
+
+/* Custom styles for the page */
+
+
+/* Center the intro content vertically */
+
+.intro-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+
+/* Add a background image to the intro section */
+
+#intro {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('/static/images/parked2.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+
+/* Style the navbar */
+
+.navbar {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.nav-link {
+    color: #fff;
+}
+
+
+/* Style the booking form */
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-orange {
+    background-color: orange;
+    color: white;
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: darkorange;
+}
+
+
+/* Style the footer */
+
+footer {
+    padding: 20px 0;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+    color: #ccc;
+}
+
+.instagram a i {
+    background: #d6249f;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);
+    border-radius: 30px;
+}
+
+.instaname:hover {
+    color: #fd5949;
+    text-decoration: none;
+}
+
+.twitter a i {
+    color: rgb(14, 188, 191);
+}
+
+.twitter a:hover {
+    color: rgb(14, 188, 191);
+    text-decoration: none;
+}
+
+.linkedin a i {
+    color: blue;
+}
+
+.linkedin a:hover {
+    color: blue;
+    text-decoration: none;
+}
+
+.reddit a i {
+    color: #FF4301;
+}
+
+.reddit a:hover {
+    color: #FF4301;
+    text-decoration: none;
+}
+
+.socials {
+    text-decoration: none;
+}
+
+@media screen and (max-width:768px) {
+    .selection-form {
+        height: 100vh;
+        width: 100vw;
+        margin-left: 0px;
+        margin-right: 0px;
+        background-color: #fff;
+        border-radius: 0px;
+        font-size: 12px;
+        margin-top: 0%;
+    }
+    .login-form {
+        height: 100vh;
+        width: 100vw;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #fff;
+        border-radius: 0px;
+        font-size: 12px;
+        margin-top: 0%;
+    }
+    .select-whole {
+        width: 100vw;
+        height: 100vh;
+        background-image: none;
+    }
+    .imgplace {
+        background-image: url('/static/images/7119306_3339154.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 30vh;
+        width: 100vw;
+    }
+    .imgplace-login {
+        background-image: url('/static/images/28899766_7514773.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 60vh;
+        width: 100vw;
+    }
+    .imgplacepay {
+        background-image: url('/static/images/35262243_8292057.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 40vh;
+        width: 100vw;
+    }
+    .title {
+        margin-top: 45vh;
+        margin-left: 00%;
+    }
+    #intro {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('/static/images/parked1.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 93vh;
+    }
+    .about {
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+}
