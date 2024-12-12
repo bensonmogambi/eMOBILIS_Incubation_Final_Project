@@ -3,9 +3,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Row, Column
+from django.forms import DateTimeInput
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate
-from .models import ParkingLoader, ParkingLot, Billing, Vehicle, Booking, ParkingSpace
+from .models import ParkingLoader, Billing, Vehicle, ParkingSpace, ParkingLot, VehicleBooking
+from django.forms.widgets import TimeInput
+
+
+
+
 
 
 
@@ -89,74 +95,82 @@ class BillingForm(forms.ModelForm):
 
 
 
-class VehicleForm(forms.ModelForm):
+#BOOKING FORM
+
+class VehicleBookingForm(forms.ModelForm):
+    # Add vehicle-related fields to the form explicitly
+    car_registration_number = forms.CharField(max_length=100, required=True, label="Plate Number")
+    vehicle_type = forms.ChoiceField(choices=Vehicle.VEHICLE_TYPE_CHOICES, required=True, label="Vehicle Type")
+    name = forms.CharField(max_length=100, required=True, label="Owner's Name")
+    phone_number = forms.CharField(max_length=15, required=True, label="Phone Number")
+    color = forms.CharField(max_length=50, required=True, label="Vehicle Color")
+    time_in = forms.DateTimeField(
+        required=True,
+        label="Time In",
+        widget=DateTimeInput(attrs={'type': 'datetime-local'})
+    )
+    expected_time_out = forms.DateTimeField(
+        required=True,
+        label="Expected Time Out",
+        widget=DateTimeInput(attrs={'type': 'datetime-local'})
+    )
+
+
+    # This field allows users to choose from the available parking spaces
+    parking_space = forms.ModelChoiceField(queryset=ParkingSpace.objects.all(), required=True, label="Select Parking Space")
+
     class Meta:
-        model = Vehicle
-        fields = ['name', 'license_plate', 'vehicle_type', 'parking_lot']
+        model = VehicleBooking
+        fields = [
+            'license_plate', 'vehicle_type', 'name'
+           , 'phone_number', 'color',
+            'time_in', 'expected_time_out', 'parking_space'
+        ]
+
+    # We don't need car_registration_number in the Booking model directly.
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  # Extract the user argument
-        super(VehicleForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if user:
             self.user = user
-            # Example: Filter parking_lot choices based on the user
+            # Filter parking_lot choices based on the user (assuming ParkingLot has a user field)
             if 'parking_lot' in self.fields:
                 self.fields['parking_lot'].queryset = ParkingLot.objects.filter(user=self.user)
 
-
-
-class BookingForm(forms.ModelForm):
-    # Add vehicle-related fields to the form explicitly
-    car_registration_number = forms.CharField(max_length=100, required=True, label="Car Registration Number")
-    vehicle_type = forms.ChoiceField(choices=Vehicle.VEHICLE_TYPE_CHOICES, required=True, label="Vehicle Type")
-
-    class Meta:
-        model = Booking
-        fields = ['time_in', 'expected_time_out', 'phone_number', 'color', 'parking_lot']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Populate the vehicle fields dynamically from the selected vehicle instance
-        if self.instance and self.instance.vehicle:
-            self.fields['car_registration_number'].initial = self.instance.vehicle.car_registration_number
-            self.fields['vehicle_type'].initial = self.instance.vehicle.vehicle_type
-
     def save(self, commit=True):
-        # Save the booking instance
+        # First, create or update the Vehicle instance.
+        vehicle_data = {
+            'car_registration_number': self.cleaned_data['car_registration_number'],
+            'vehicle_type': self.cleaned_data['vehicle_type'],
+            'name': self.cleaned_data['name'],
+            'license_plate': self.cleaned_data['license_plate'],
+            'phone_number': self.cleaned_data['phone_number'],
+            'color': self.cleaned_data['color'],
+            'time_in': self.cleaned_data['time_in'],
+            'expected_time_out': self.cleaned_data['expected_time_out'],
+            'user': self.user,  # Attach the user to the vehicle
+        }
+
+        vehicle, created = Vehicle.objects.get_or_create(
+            car_registration_number=self.cleaned_data['car_registration_number'],
+            defaults=vehicle_data
+        )
+
+        # Now save the booking instance
         booking = super().save(commit=False)
-        # Update or create the associated vehicle
-        if self.cleaned_data.get('car_registration_number') and self.cleaned_data.get('vehicle_type'):
-            vehicle, _ = Vehicle.objects.get_or_create(
-                car_registration_number=self.cleaned_data['car_registration_number'],
-                defaults={'vehicle_type': self.cleaned_data['vehicle_type']}
-            )
-            booking.vehicle = vehicle
+        booking.vehicle = vehicle  # Link the vehicle to the booking
+        booking.user = self.user
+
         if commit:
             booking.save()
+
         return booking
 
 
 
 
-"""""
-class BookingForm(forms.ModelForm):
-    # Add vehicle-related fields to the form explicitly
-    car_registration_number = forms.CharField(max_length=100, required=True)
-    vehicle_type = forms.ChoiceField(choices=Vehicle.VEHICLE_TYPE_CHOICES, required=True)
 
-    class Meta:
-        model = Booking
-        fields = [ 'time_in', 'expected_time_out', 'phone_number', 'color', 'parking_lot']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Populate the vehicle fields dynamically from the selected vehicle instance
-        if self.instance and self.instance.vehicle:
-            self.fields['car_registration_number'].initial = self.instance.vehicle.car_registration_number
-            self.fields['vehicle_type'].initial = self.instance.vehicle.vehicle_type
-
-
-"""""
 
 
 
@@ -164,15 +178,14 @@ class ParkingSpaceRegistrationForm(forms.ModelForm):
     class Meta:
         model = ParkingSpace
         fields = [
-            'name',
-            'location',
-            'pin',
-            'phone_number',
-            'opening_time',
-            'closing_time',
-            'facility_type',
-            'photo'
+            'name', 'location', 'pin', 'phone_number',
+            'opening_time', 'closing_time', 'facility_type', 'photo'
         ]
+        widgets = {
+            'opening_time': TimeInput(format='%H:%M', attrs={'type': 'time'}),
+            'closing_time': TimeInput(format='%H:%M', attrs={'type': 'time'}),
+        }
+
 
 
 
@@ -393,3 +406,26 @@ class ParkingLoaderForm(forms.ModelForm):
         model = ParkingLoader
         fields = ['vehicle_type', 'car_registration_number', 'other_field_1', 'other_field_2']
 """
+
+
+
+
+"""""
+class BookingForm(forms.ModelForm):
+    # Add vehicle-related fields to the form explicitly
+    car_registration_number = forms.CharField(max_length=100, required=True)
+    vehicle_type = forms.ChoiceField(choices=Vehicle.VEHICLE_TYPE_CHOICES, required=True)
+
+    class Meta:
+        model = Booking
+        fields = [ 'time_in', 'expected_time_out', 'phone_number', 'color', 'parking_lot']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Populate the vehicle fields dynamically from the selected vehicle instance
+        if self.instance and self.instance.vehicle:
+            self.fields['car_registration_number'].initial = self.instance.vehicle.car_registration_number
+            self.fields['vehicle_type'].initial = self.instance.vehicle.vehicle_type
+
+
+"""""

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.conf import settings
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -131,6 +134,12 @@ STATICFILES_DIRS = [
    os.path.join(BASE_DIR, 'static')
 ]
 
+# Media files (for image uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+settings.TIME_INPUT_FORMATS = ['%H:%M', '%H:%M:%S']
 
 
 

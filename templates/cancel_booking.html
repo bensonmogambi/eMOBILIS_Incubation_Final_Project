@@ -1,0 +1,26 @@
+<table>
+    <thead>
+        <tr>
+            <th>Car Registration</th>
+            <th>Vehicle Type</th>
+            <th>Parking Lot</th>
+            <th>Time In</th>
+            <th>Expected Time Out</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.vehicle.car_registration_number }}</td>
+            <td>{{ booking.vehicle.vehicle_type }}</td>
+            <td>{{ booking.parking_lot.location }}</td>
+            <td>{{ booking.time_in }}</td>
+            <td>{{ booking.expected_time_out }}</td>
+            <td>
+                <a href="{% url 'cancel_booking' booking.id %}">Cancel</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

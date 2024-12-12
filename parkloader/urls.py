@@ -4,6 +4,10 @@ from . import views
 from  .views import *
 from django.contrib import admin
 #from mpesa.urls import mpesa_urls
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 
 urlpatterns = [
     path('', home , name='home'),
@@ -20,8 +24,17 @@ urlpatterns = [
 
     path('book-parking/', views.book_parking, name='book_parking'),
     path('register-parking-spot/', views.register_parking_spot, name='register_parking_spot'),
+     path('view-bookings/', views.view_bookings, name='view_bookings'),
+    path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+
 
 
