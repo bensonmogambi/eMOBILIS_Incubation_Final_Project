@@ -1,15 +1,15 @@
 from django.contrib import admin
-from .models import parkingLoader , ParkingLot,Billing,BillingPlan
+from .models import ParkingLoader , ParkingLot,Billing,BillingPlan
 # Register your models here.
 
 admin.site.register(Billing)
 admin.site.register(BillingPlan)
 
 
-@admin.register(parkingLoader)
+@admin.register(ParkingLoader)
 class ParkingLoaderAdmin(admin.ModelAdmin):
-    list_display = ( 'car_regestration_number', 'vehicle_type','parking_lot','parked')
-    fields = ( 'car_regestration_number', 'vehicle_type','parking_lot', 'parked')
+    list_display = ( 'car_registration_number', 'vehicle_type','parking_lot','parked')
+    fields = ( 'car_registration_number', 'vehicle_type','parking_lot', 'parked')
 
     def delete_model(self, request, obj):
         parking_lot = obj.parking_lot

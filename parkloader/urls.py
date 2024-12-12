@@ -1,4 +1,6 @@
 from django.urls import path,include
+
+from . import views
 from  .views import *
 from django.contrib import admin
 #from mpesa.urls import mpesa_urls
@@ -15,4 +17,11 @@ urlpatterns = [
     path('register/home/billing_info/', billing_info, name='billing_info'),
     path('billing/', billing, name='billing'),
     # path('login/', my_login_view, name='my_login'),
+
+    path('book-parking/', views.book_parking, name='book_parking'),
+    path('register-parking-spot/', views.register_parking_spot, name='register_parking_spot'),
+
+
 ]
+
+

@@ -1,3 +1,4 @@
+{% load crispy_forms_filters %}
 {% load crispy_forms_tags %} 
 {% load static%}
 
@@ -14,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'mainstyle.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/c4e0f4710c.js" crossorigin="anonymous"></script>
+    
     <style>
         input {
             text-transform: uppercase;
@@ -151,48 +153,168 @@
             </div>
 
         </div>
+        
     </section>
-    <a id="target-anchor-about"></a>
-    <section id="about" data-spy="scroll" data-target="#navbarNav" data-offset="60">
-        <div class="container ">
-            <div class="row">
-                <div class="col-md-12 about">
-                    <h2>About Us</h2>
-                    <p>Our Sol-Fa Parker system is a versatile and fully integrated solution that combines parking management, guidance, payment processing, and advanced analytics.
-                        Alongside these core features, it offers a range of complementary services and customizable options. 
-                        This seamless integration makes Sol-Fa Parker more than just the sum of its parts, positioning it as a leader in technology and innovation within the parking industry. 
-                        Proudly serving Nairobi, our system is designed to meet the growing demand for smart, efficient, and sustainable parking solutions in one of Africa's most vibrant cities. 
-                    
-                    </p>
-                    <hr>
-                </div>
-            </div>
-        </div>
-    </section>
-    <a id="target-anchor-book"></a>
     
-    <section id="book">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Book Your Parking Spot</h2>
-                    {% if messages %}
+    <section style="height: 30px; background-color: #eee;"></section>
+    
+        
+
+    
+    
+    
+    
+    <a id="target-anchor-book"></a>
+ <section id="book">
+    <div class="container">
+        <div class="row">
+            <!-- Form for Booking a Parking Spot -->
+            <div class="col-md-6">
+                <h2>Book Your Parking Spot</h2>
+                {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}
-                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:green;list-style:none">{{ message }}</li>
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:green; list-style:none">{{ message }}</li>
                         {% endfor %}
                     </ul>
-                    {% endif %}
-                    <form method="POST">
-                        <div class="form-group">
-                            {% csrf_token %} {{ vehicle_form| crispy}}
-                        </div>
-                        <button type="submit" class="btn btn-orange btn-submit"> Book </button>
-                    </form>
-                </div>
+                {% endif %}
+                <form method="POST">
+    {% csrf_token %}
+
+    <h3>Vehicle Details</h3>
+    <div class="form-group">
+        {{ booking_form.car_registration_number.label_tag }}
+        {{ booking_form.car_registration_number }}
+    </div>
+    <div class="form-group">
+        {{ booking_form.vehicle_type.label_tag }}
+        {{ booking_form.vehicle_type }}
+    </div>
+
+    <h3>Booking Details</h3>
+    <div class="form-group">
+        {{ booking_form.time_in.label_tag }}
+        {{ booking_form.time_in }}
+    </div>
+    <div class="form-group">
+        {{ booking_form.expected_time_out.label_tag }}
+        {{ booking_form.expected_time_out }}
+    </div>
+    <div class="form-group">
+        {{ booking_form.phone_number.label_tag }}
+        {{ booking_form.phone_number }}
+    </div>
+    <div class="form-group">
+        {{ booking_form.color.label_tag }}
+        {{ booking_form.color }}
+    </div>
+    <div class="form-group">
+        {{ booking_form.parking_lot.label_tag }}
+        {{ booking_form.parking_lot }}
+    </div>
+
+    <button type="submit" class="btn btn-orange btn-submit">Book Parking</button>
+</form>
+
+ 
+            </div>
+
+            <!-- Form for Registering a Parking Spot for Rent -->
+            <div class="col-md-6">
+                <h2>Register Your Parking Spot</h2>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:green; list-style:none">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <form method="POST" action="{% url 'register_parking_spot' %}">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        <!-- Assuming you have a form for registering a parking spot -->
+                        {{ parking_lot_form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-orange btn-submit">Register Parking Spot</button>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+    
+   
+
+
+    
+    
+    
+    
+    
+    
+    
+    <a id="target-anchor-about"></a>
+    <section id="about" data-spy="scroll" data-target="#navbarNav" data-offset="60">
+    <div class="container">
+        <!-- First alternating section: Text left, Image right -->
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Discover Amazing Space</h2>
+                <p>Find parking anywhere, for now or for later
+                    Compare prices & pick the place that’s best for you</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'images/img.png' %}" alt="Parking Image" class="img-fluid">
+            </div>
+        </div>
+        
+
+        <!-- Second alternating section: Image left, Text right -->
+        <div class="row">
+            <div class="col-md-5">
+                <img src="https://cdn.pixabay.com/photo/2013/07/12/14/43/car-148642_1280.png" alt="Parking Image" class="img-fluid" >
+            </div>
+            <div class="col-md-5">
+                <h2>Drive, Arrive & Park</h2>
+                <p>Enter easily with your mobile parking pass
+                    Your space is waiting – pull in and go do your thing</p>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+   </section>
+
+    
+    
+    
+    
+    
+    <!-- About Us Section -->
+<a id="target-anchor-about"></a>
+<section id="about" data-spy="scroll" data-target="#navbarNav" data-offset="60" style="padding: 60px 0; background-color: #f9f9f9;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 about text-center">
+                <h2>About Us</h2>
+                <p>
+                    Our Sol-Fa Parker system is a versatile and fully integrated solution that combines parking management, guidance, payment processing, and advanced analytics. 
+                    Alongside these core features, it offers a range of complementary services and customizable options. 
+                    This seamless integration makes Sol-Fa Parker more than just the sum of its parts, positioning it as a leader in technology and innovation within the parking industry. 
+                    Proudly serving Nairobi, our system is designed to meet the growing demand for smart, efficient, and sustainable parking solutions in one of Africa's most vibrant cities. 
+                </p>
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Spacer Section for Clear Transition -->
+<section style="height: 50px; background-color: #eee;"></section>
+    
+    
+    
+
     
     <div  id="contact" class="contact-container-wrapper">
         <!-- Left side: Form -->
@@ -218,7 +340,7 @@
 
         <!-- Right side: Google Map -->
         <div class="contact-map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.815662098042!2d36.75777607414953!3d-1.28453703562249!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a21fff721c1%3A0x2c15dc9d76954c58!2sHoly%20Cross%20Catholic%20International%20School%2C%20Nairobi%20Kenya!5e0!3m2!1sen!2ske!4v1729070730579!5m2!1sen!2ske" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.753299518678!2d36.7768694741497!3d-1.323883535666645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1a9e7d287631%3A0x1de848b41caceb2c!2sOtiende%20Shopping%20Centre!5e0!3m2!1sen!2ske!4v1733331807249!5m2!1sen!2ske" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
     
@@ -294,6 +416,8 @@
 </body>
 
 </html>
+
+
 
 
 
