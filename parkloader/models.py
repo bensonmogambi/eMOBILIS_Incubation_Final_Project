@@ -21,9 +21,13 @@ class BillingPlan(models.Model):
 class Billing(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     plan = models.ForeignKey(BillingPlan, on_delete=models.CASCADE, null=True)
-    card_number = models.CharField(max_length=20)
-    card_expiry = models.CharField(max_length=10)
-    cvv = models.CharField(max_length=5)
+    phone_number = models.CharField(max_length=20)
+    #card_expiry = models.CharField(max_length=10)
+    #cvv = models.CharField(max_length=5)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+        self.plan = None
 
     def __str__(self):
         return f'{self.user.username} ({self.plan.name})'
@@ -37,7 +41,6 @@ class Vehicle(models.Model):
     expected_time_out = models.DateTimeField(default=now)
     phone_number = models.CharField(max_length=15, default='0759194307')
     color = models.CharField(max_length=50, default='e.g., black')
-    parking_lot = models.ForeignKey('ParkingLot', on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     VEHICLE_TYPE_CHOICES = [
         ('lorry', 'Lorry'),
@@ -58,7 +61,7 @@ class Vehicle(models.Model):
 
 
 
-
+"""""
 
 class ParkingLot(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
@@ -73,7 +76,7 @@ class ParkingLot(models.Model):
 
     def __str__(self):
         return f"{self.location} ({self.available_slots}/{self.total_slots} slots available)"
-
+"""
 
 
 
@@ -135,14 +138,13 @@ class VehicleBooking(models.Model):
         default='personal',
     )
     name = models.CharField(max_length=100)
-    license_plate = models.CharField(max_length=20)
     phone_number = models.CharField(max_length=15)
     color = models.CharField(max_length=50)
 
     # Booking Details
     time_in = models.DateTimeField(default=now)
     expected_time_out = models.DateTimeField()
-    parking_lot = models.ForeignKey(ParkingLot, on_delete=models.CASCADE)
+
 
     # Relations
     user = models.ForeignKey(User, on_delete=models.CASCADE)

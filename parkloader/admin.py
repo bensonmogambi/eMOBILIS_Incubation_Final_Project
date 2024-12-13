@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import ParkingLoader, ParkingLot, Billing, BillingPlan, ParkingSpace, Vehicle, VehicleBooking
+from .models import ParkingLoader, Billing, BillingPlan, ParkingSpace, Vehicle, VehicleBooking
 from django.utils.html import mark_safe
 
 # Register Billing and BillingPlan models
@@ -21,16 +21,6 @@ class ParkingLoaderAdmin(admin.ModelAdmin):
         obj.delete()  # delete the vehicle from the database
 
 
-# ParkingLot Admin
-@admin.register(ParkingLot)
-class ParkingLotAdmin(admin.ModelAdmin):
-    list_display = ('location', 'total_slots', 'available_slots', 'user')
-    fields = ('location', 'total_slots', 'available_slots', 'user')
-
-    def save_model(self, request, obj, form, change):
-        if not change:  # Only set the user if it's a new parking lot
-            obj.user = request.user
-        super().save_model(request, obj, form, change)
 
 
 # ParkingSpace Admin
@@ -49,8 +39,8 @@ class ParkingSpaceAdmin(admin.ModelAdmin):
 # Vehicle Admin (optional)
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ('car_registration_number', 'vehicle_type', 'name', 'license_plate', 'user', 'parking_lot')
-    fields = ('car_registration_number', 'vehicle_type', 'name', 'license_plate', 'user', 'parking_lot', 'time_in', 'expected_time_out', 'phone_number', 'color')
+    list_display = ('car_registration_number', 'vehicle_type', 'name', 'license_plate', 'user')
+    fields = ('car_registration_number', 'vehicle_type', 'name', 'license_plate', 'user', 'time_in', 'expected_time_out', 'phone_number', 'color')
 
     def save_model(self, request, obj, form, change):
         if not change:  # Only set the user if it's a new vehicle

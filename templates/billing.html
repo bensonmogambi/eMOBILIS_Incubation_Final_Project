@@ -29,9 +29,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="{% url 'billing_info1' %}">Billing</a>
-                        </li> -->
+                        
                         <li class="nav-item last-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>
@@ -50,7 +48,7 @@
                         <div class="card-body">
                             <h5 class="card-title text-center">Basic Plan</h5>
                             <p class="card-text text-center">{{billing_basic.description}}</p>
-                            <h3 class="text-center mb-4">Ksh {{billing_basic.price}}</h3>
+                            <h3 class="text-center mb-4">Ksh 1 {{billing_basic.price}}</h3>
                             <a href="{% url 'billing' %}" class="btn btn-md btn-block bg-danger text-white">Sign up</a>
                         </div>
                     </div>
@@ -60,7 +58,7 @@
                         <div class="card-body">
                             <h5 class="card-title text-center">Advanced Plan</h5>
                             <p class="card-text text-center">{{billing_advance.description}}</p>
-                            <h3 class="text-center mb-4">Ksh {{billing_advance.price}}</h3>
+                            <h3 class="text-center mb-4">Ksh 1000 pm{{billing_advance.price}}</h3>
                             <a href="{% url 'billing'  %}" class="btn btn-md btn-block bg-danger text-white">Sign up</a>
                         </div>
                     </div>
@@ -70,7 +68,7 @@
                         <div class="card-body">
                             <h5 class="card-title text-center">Premium Plan</h5>
                             <p class="card-text text-center">{{billing_platinum.description}}</p>
-                            <h3 class="text-center mb-4">Ksh {{billing_platinum.price}}</h3>
+                            <h3 class="text-center mb-4">Ksh 20000 pm{{billing_platinum.price}}</h3>
                             <a href="{% url 'billing' %}" class="btn btn-md btn-block bg-danger text-white">Sign up</a>
                         </div>
                     </div>

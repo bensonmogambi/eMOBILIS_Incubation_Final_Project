@@ -28,9 +28,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="home/billing_info/">Billing</a>
-                        </li>
                         <li class="nav-item last-item">
                             <a class="nav-link" href="#">Contact</a>
                         </li>
@@ -49,9 +46,35 @@
 
         <div class="selection-form shadow">
             <h2 class='text-danger'> Input Payment Details</h2>
+            
+            <div class="selection-form shadow">
+    <h2 class='text-danger'>Input Payment Details</h2>
+    <form method="post" class="form-group text-secondary">
+        {% csrf_token %}
+        {{ form.as_p }} <!-- Render the form with fields: name, phone_number, amount, and plan -->
+        <button type="submit" class="btn btn-danger">Submit Payment</button>
+    </form>
+</div>
+
+<div class="row mt-5">
+    {% for plan in plans %}
+    <div class="col-md-4">
+        <div class="card mb-5 shadow">
+            <div class="card-body">
+                <h5 class="card-title text-center">{{ plan.name }}</h5>
+                <p class="card-text text-center">{{ plan.description }}</p>
+                <h3 class="text-center mb-4">Ksh {{ plan.price }}</h3>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+            
+            
             <form method="post" class="form-group text-secondary">
-                {% csrf_token %} 
-                {{form| crispy}}
+                {% csrf_token %}
+                {{ form.phone_number|crispy }}
                 <button type="submit" class="btn btn-danger"> start plan </button>
 
                 <div class="container-fluid imgplacepay"></div>

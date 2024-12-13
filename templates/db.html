@@ -1,0 +1,87 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Update Form -->
+    {% if form %}
+        <div class="card shadow p-4 mb-5">
+            <h3>{{ update_title }}</h3>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">{{ submit_text }}</button>
+                <a href="{% url cancel_url %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    {% endif %}
+
+    <!-- Delete Confirmation -->
+    {% if delete_object %}
+        <div class="card shadow p-4 mb-5">
+            <h3>{{ delete_title }}</h3>
+            <p>Are you sure you want to delete <strong>{{ delete_object }}</strong>?</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">{{ confirm_text }}</button>
+                <a href="{% url cancel_url %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    {% endif %}
+
+    <!-- List View (Optional: Display for Admins) -->
+    <div class="card shadow p-4">
+        <h3>Manage Records</h3>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Car Registration</th>
+                    <th>Vehicle Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ booking.car_registration_number }}</td>
+                    <td>{{ booking.vehicle_type }}</td>
+                    <td>
+                        <a href="{% url 'update_booking' booking.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_booking' booking.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4>Parking Spaces</h4>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for space in parking_spaces %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ space.name }}</td>
+                    <td>{{ space.location }}</td>
+                    <td>
+                        <a href="{% url 'update_parking_space' space.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_parking_space' space.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

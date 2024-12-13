@@ -85,28 +85,9 @@
         #contact {
         margin-top: 50px; /* Adjust this value as needed */
         }
-        
-        
- .card {
-    border-radius: 20px;
-    padding: 20px;
-    background-color:#f9f9f9;
-     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-}
+ 
 
-.card-title {
-    font-size: 1.5rem;
-    color: #333;
-}
 
-.btn-primary {
-    background-color: #ff8800;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: #e67600;
-}
 
         
         
@@ -155,6 +136,7 @@
                 </li>
                 
                 
+                
             </ul>
             <ul class="navbar-nav ms-auto"> <!-- Move LOGOUT to the far right -->
                 <li class="nav-item">
@@ -183,57 +165,66 @@
     <section style="height: 30px; background-color: #eee;"></section>
     
     
-      <section id="book">
+<section id="book" class="mt-5">
     <div class="container">
         <div class="row">
             <!-- Booking form for Parking Spot -->
-            <div class="col-md-6">
-                <h2>Book Your Parking Spot</h2>
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:green; list-style:none">{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                <form method="POST" action="{% url 'book_parking' %}">
-                    {% csrf_token %}
-                    {{ vehicle_booking_form.as_p }}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Book Your Parking Spot</h2>
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:green; list-style:none">
+                                        {{ message }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <form method="POST" action="{% url 'book_parking' %}" class="form-control">
+                            {% csrf_token %}
+                            {{ vehicle_booking_form.as_p }}
 
-                    {% if vehicle_booking_form.errors %}
-                        <div class="form-errors">
-                            {{ vehicle_booking_form.errors }}
-                        </div>
-                    {% endif %}
-                    <button type="submit" class="btn btn-orange btn-submit">Book Parking</button>
-                </form>
+                            {% if vehicle_booking_form.errors %}
+                                <div class="form-errors">
+                                    {{ vehicle_booking_form.errors }}
+                                </div>
+                            {% endif %}
+                            <button type="submit" class="btn btn-orange btn-submit w-100 mt-3">Book Parking</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <!-- Display all registered parking spaces -->
-            <div class="col-md-6">
-                <h2>Available Parking Spaces</h2>
-                <div class="row">
-                    {% for space in parking_spaces %}
-                        <div class="col-md-4">
-                            <div class="card">
-                                <img src="{{ space.photo.url }}" alt="{{ space.name }}" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ space.name }}</h5>
-                                    <p class="card-text">{{ space.location }}</p>
-                                    <p class="card-text">Opening Time: {{ space.opening_time }}</p>
-                                    <p class="card-text">Closing Time: {{ space.closing_time }}</p>
-                                    <p class="card-text">Phone: {{ space.phone_number }}</p>
-                                </div>
+            <!-- Registration form for Parking Spot -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Register Your Parking Spot</h2>
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %} style="color:green; list-style:none">
+                                        {{ message }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <form method="POST" action="{% url 'register_parking_spot' %}" class="form-control">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                {{ parking_space_form.as_p }}
                             </div>
-                        </div>
-                    {% endfor %}
+                            <button type="submit" class="btn btn-orange btn-submit w-100 mt-3">Register Parking Spot</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-    
     
     
 

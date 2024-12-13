@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'parkloader',
+    'rest_framework',
     'crispy_forms',
     'crispy_bootstrap5',
     'mpesa',
@@ -94,6 +95,20 @@ DATABASES = {
 }
 
 
+"""""
+#changing it to mysql
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'EMOBILIS',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+
+    }
+}
+"""
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -148,20 +163,18 @@ settings.TIME_INPUT_FORMATS = ['%H:%M', '%H:%M:%S']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# MPESA_CONFIG = {
-#  'CONSUMER_KEY': 'ijAmI8hfaJiP8Xb9uMIxGEPKRmNFODau',
-#  'CONSUMER_SECRET': ' c4pH4wuPEk5vOlf1',
-# 'HOST_NAME':'localHost', 
-# 'PASS_KEY': 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919',
-# 'SAFARICOM_API': 'https://sandbox.safaricom.co.ke',
-# 'AUTH_URL': '/oauth/v1/generate?grant_type=client_credentials',
-# 'SHORT_CODE': '174379',
-# 'TILL_NUMBER': None,
-# 'TRANSACTION_TYPE': 'CustomerBuyGoodsOnline',
-# 'AUTH_URL': '/oauth/v1/generate?grant_type=client_credentials',
-# 'TRANSACTION_TYPE': 'CustomerBuyGoodsOnline',
 
-# }
+#DARAJA MPESA API
+
+MPESA_ENVIRONMENT = 'sandbox'
+MPESA_CONSUMER_KEY = 'kGoMAEYtxseSDm2mnSb1PGp4e2ROaq2nlWKeGPT30OAvk1yr'
+MPESA_CONSUMER_SECRET = 'glqNf2OA4wGQG7yRMBhE83rW0GkbVgGVqlarzl18XiazkXQYhMVwOA3MpknpM3se'
+MPESA_SHORTCODE = '174379'
+MPESA_EXPRESS_SHORTCODE = '174379' #SAME AS THE SHORTCODE
+MPESA_SHORTCODE_TYPE = 'paybill'
+MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+MPESA_INITIATOR_USERNAME = 'testapi'
+MPESA_INITIATOR_SECURITY_CREDENTIALS = 'Safaricom999!*!'
 
 #MPESA_ENVIRONMENT = 'sandbox'
 

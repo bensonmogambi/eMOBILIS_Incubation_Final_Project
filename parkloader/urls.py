@@ -27,11 +27,21 @@ urlpatterns = [
      path('view-bookings/', views.view_bookings, name='view_bookings'),
     path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 
+    path('mpesa/payment/', views.billing, name='mpesa_payment'),  # View to process Mpesa payment
+    path('mpesa/callback/', views.mpesa_payment_callback, name='mpesa_callback'),
+    path('home/billing_info/', views.billing_info, name='billing_info'),
+
+
+
 
 ]
 
+
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 
 

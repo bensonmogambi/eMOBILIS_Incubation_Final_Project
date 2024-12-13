@@ -6,7 +6,7 @@ from crispy_forms.layout import Layout, Field, Row, Column
 from django.forms import DateTimeInput
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate
-from .models import ParkingLoader, Billing, Vehicle, ParkingSpace, ParkingLot, VehicleBooking
+from .models import ParkingLoader, Billing, Vehicle, ParkingSpace, VehicleBooking, BillingPlan
 from django.forms.widgets import TimeInput
 
 
@@ -73,7 +73,7 @@ class RegisterForm(UserCreationForm):
 class BillingForm(forms.ModelForm):
     class Meta:
         model = Billing
-        fields = ['plan', 'card_number', 'card_expiry', 'cvv']
+        fields = ['plan', 'phone_number']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -91,6 +91,23 @@ class BillingForm(forms.ModelForm):
             ),
             Field('submit', type='submit', value='Submit', css_class='btn btn-primary')
         )
+
+
+
+
+
+
+class MpesaPaymentForm(forms.Form):
+    name = forms.CharField(max_length=100, label="Your Name")
+    phone_number = forms.CharField(max_length=15, label="Mpesa Number")
+    amount = forms.DecimalField(max_digits=8, decimal_places=2, label="Amount")
+    plan = forms.ModelChoiceField(
+        queryset=BillingPlan.objects.all(),
+        label="Select Plan",
+        empty_label="Choose your plan"
+    )
+
+
 
 
 
@@ -122,12 +139,12 @@ class VehicleBookingForm(forms.ModelForm):
     class Meta:
         model = VehicleBooking
         fields = [
-            'license_plate', 'vehicle_type', 'name'
+            'car_registration_number', 'vehicle_type', 'name'
            , 'phone_number', 'color',
             'time_in', 'expected_time_out', 'parking_space'
         ]
 
-    # We don't need car_registration_number in the Booking model directly.
+
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  # Extract the user argument
@@ -144,7 +161,6 @@ class VehicleBookingForm(forms.ModelForm):
             'car_registration_number': self.cleaned_data['car_registration_number'],
             'vehicle_type': self.cleaned_data['vehicle_type'],
             'name': self.cleaned_data['name'],
-            'license_plate': self.cleaned_data['license_plate'],
             'phone_number': self.cleaned_data['phone_number'],
             'color': self.cleaned_data['color'],
             'time_in': self.cleaned_data['time_in'],
@@ -168,6 +184,26 @@ class VehicleBookingForm(forms.ModelForm):
         return booking
 
 
+def save(self, commit=True):
+    # Attempt to retrieve an existing booking with the same car_registration_number
+    car_registration_number = self.cleaned_data.get('car_registration_number')
+    vehicle_booking, created = VehicleBooking.objects.update_or_create(
+        car_registration_number=car_registration_number,
+        defaults={
+            'vehicle_type': self.cleaned_data['vehicle_type'],
+            'name': self.cleaned_data['name'],
+            'phone_number': self.cleaned_data['phone_number'],
+            'color': self.cleaned_data['color'],
+            'time_in': self.cleaned_data['time_in'],
+            'expected_time_out': self.cleaned_data['expected_time_out'],
+            'user': self.user,
+        }
+    )
+
+    if commit:
+        vehicle_booking.save()
+
+    return vehicle_booking
 
 
 

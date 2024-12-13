@@ -7,13 +7,21 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
 from django_daraja.mpesa.core import MpesaClient
-from .models import ParkingLot, Billing, BillingPlan, VehicleBooking
-from .forms import LoginForm, RegisterForm, BillingForm, ParkingSpaceRegistrationForm,  VehicleBookingForm
+from .models import  Billing, BillingPlan, VehicleBooking, ParkingSpace
+from .forms import LoginForm, RegisterForm, BillingForm, ParkingSpaceRegistrationForm, VehicleBookingForm, \
+    MpesaPaymentForm
 from .forms import   BillingForm
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 import logging
 logger = logging.getLogger(__name__)
+from .mpesa_client import MpesaClient  # Ensure you have MpesaClient class to handle the Mpesa integration
+from rest_framework.views import APIView
+from rest_framework import status
+import json
+from django.http import JsonResponse
+
+
 
 
 
@@ -39,8 +47,7 @@ def login_user(request):
 # Home view for booking and registering parking spots
 @login_required(login_url='/login/')
 def home(request):
-    parking_lots = ParkingLot.objects.all()
-    parking_lot_choices = [(lot.id, f"{lot.location} ({lot.available_slots} available)") for lot in parking_lots]
+
 
     vehicle_booking_form = VehicleBookingForm(user=request.user)
     parking_space_form = ParkingSpaceRegistrationForm()
@@ -48,7 +55,7 @@ def home(request):
     return render(request, 'home.html', {
         'vehicle_booking_form': vehicle_booking_form,
         'parking_space_form': parking_space_form,
-        'parking_lot_choices': parking_lot_choices
+
     })
 
 
@@ -73,6 +80,7 @@ def book_parking(request):
             messages.error(request, 'An error occurred while processing your booking.')
 
     vehicle_booking_form = VehicleBookingForm(user=request.user)
+    parking_spaces = ParkingSpace.objects.all()
     return render(request, 'home.html', {
             'vehicle_booking_form': vehicle_booking_form,
             'parking_spaces': parking_spaces  }) # Display parking spaces
@@ -146,29 +154,63 @@ def register(request):
         form = RegisterForm()
         return render(request, 'signUp.html', {'form': form})
 
+
+
 # Billing information view
 def billing_info(request):
     billing_plans = BillingPlan.objects.all()
     return render(request, 'billing.html', {'billing_plans': billing_plans})
 
+
+
+
+
 # Billing view
+@login_required
 def billing(request):
-    plans = BillingPlan.objects.all()
     user = request.user
-    billing, created = Billing.objects.get_or_create(user=user)
+    plans = BillingPlan.objects.all()
+    billing, created = Billing.objects.get_or_create(user=user, defaults={'plan': None, 'phone_number': ''})
 
     if request.method == 'POST':
-        form = BillingForm(request.POST, instance=billing)
+        form = MpesaPaymentForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Billing details successfully updated!')
-            return redirect('home')
+            name = form.cleaned_data['name']
+            phone_number = form.cleaned_data['phone_number']
+            selected_plan = form.cleaned_data['plan']
+            amount = selected_plan.price  # Get the price from the selected plan
+
+            # Mpesa STK push
+            try:
+                cl = MpesaClient()
+                account_reference = f"Plan-{selected_plan.name}"
+                transaction_desc = f"Payment for {selected_plan.name}"
+                callback_url = 'http://127.0.0.1:8000/mpesa/callback/'
+
+                response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+                if response.get('ResponseCode') == '0':
+                    billing.plan = selected_plan
+                    billing.phone_number = phone_number
+                    billing.save()
+
+                    messages.success(request, 'Payment request sent. Check your phone to complete the transaction.')
+                    return redirect('home')
+                else:
+                    messages.error(request, 'Failed to initiate payment. Please try again.')
+            except Exception as e:
+                messages.error(request, f"An error occurred: {e}")
         else:
-            messages.error(request, 'Billing plan not selected!')
-            return redirect('login')
+            messages.error(request, 'Invalid payment details entered.')
     else:
-        form = BillingForm(instance=billing)
-        return render(request, 'billingplans.html', {'plans': plans, 'form': form})
+        form = MpesaPaymentForm()
+
+    return render(request, 'billingplans.html', {'form': form, 'plans': plans, 'billing': billing})
+
+
+
+
+
+
 
 # STK push view (mpesa payment)
 def index(request):
@@ -182,6 +224,104 @@ def index(request):
     return HttpResponse(response)
 
 # STK push callback
+
 def stk_push_callback(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)  # Parse callback data
+        print(f"Mpesa Callback Data: {data}")
+        # Process callback data here (e.g., update database, verify payment)
+        return JsonResponse({"ResultCode": 0, "ResultDesc": "Accepted"})  # Send acknowledgment
+    return JsonResponse({"ResultCode": 1, "ResultDesc": "Rejected"})
+
+
+def mpesa_payment_callback(request):
     data = request.body
-    return HttpResponse("STK Push in Django👋")
+    # You can process the response here based on the status of the payment
+    print(f"Callback Data: {data}")
+    # Depending on the callback, you can store the result in the database or take appropriate actions
+
+    return HttpResponse("STK Push callback received")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""""
+
+# Update VehicleBooking
+def update_booking(request, booking_id):
+    booking = get_object_or_404(VehicleBooking, id=booking_id)
+    if request.method == 'POST':
+        form = VehicleBookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect('view_bookings')  # Redirect to the bookings list
+    else:
+        form = VehicleBookingForm(instance=booking)
+    return render(request, 'db.html', {'form': form})
+
+
+# Delete VehicleBooking
+def delete_booking(request, booking_id):
+    booking = get_object_or_404(VehicleBooking, id=booking_id)
+    if request.method == 'POST':
+        booking.delete()
+        return redirect('view_bookings')  # Redirect to the bookings list
+    return render(request, 'db.html', {'booking': booking})
+
+
+# Update ParkingSpace
+def update_parking_space(request, parking_space_id):
+    parking_space = get_object_or_404(ParkingSpace, id=parking_space_id)
+    if request.method == 'POST':
+        form = ParkingSpaceRegistrationForm(request.POST, instance=parking_space)
+        if form.is_valid():
+            form.save()
+            return redirect('view_parking_spaces')  # Redirect to the parking spaces list
+    else:
+        form = ParkingSpaceRegistrationForm(instance=parking_space)
+    return render(request, 'db.html', {'form': form})
+
+
+# Delete ParkingSpace
+def delete_parking_space(request, parking_space_id):
+    parking_space = get_object_or_404(ParkingSpace, id=parking_space_id)
+    if request.method == 'POST':
+        parking_space.delete()
+        return redirect('view_parking_spaces')  # Redirect to the parking spaces list
+    return render(request, 'db.html', {'parking_space': parking_space})
+
+
+
+
+
+
+def access_db(request):
+    bookings = VehicleBooking.objects.all()
+    parking_spaces = ParkingSpace.objects.all()
+
+    context = {
+        'bookings': bookings,
+        'parking_spaces': parking_spaces,
+    }
+    return render(request, 'db.html', context)
+"""
+
+
